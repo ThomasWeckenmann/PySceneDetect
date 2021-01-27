@@ -377,3 +377,21 @@ Options:
   -h, --image-height pixels  Height in pixels of the images in the resulting
                              HTML table.
 ```
+
+
+## `export-edl` Command
+
+```md
+PySceneDetect export-edl Command
+----------------------------------------------------
+Usage: scenedetect.py export-edl [OPTIONS]
+
+  Exports scene list to an EDL file.
+
+Options:
+  -f, --filename NAME        Filename format to use for the scene list EDL
+                             file. You can use the $VIDEO_NAME macro in the
+                             file name. Note that you may have to wrap the
+                             the format name using single quotes.
+                             [default: $VIDEO_NAME.edl]
+```

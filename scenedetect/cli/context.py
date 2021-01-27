@@ -49,6 +49,7 @@ import scenedetect.scene_manager
 from scenedetect.scene_manager import SceneManager
 from scenedetect.scene_manager import write_scene_list
 from scenedetect.scene_manager import write_scene_list_html
+from scenedetect.scene_manager import write_scene_list_edl
 
 from scenedetect.stats_manager import StatsManager
 from scenedetect.stats_manager import StatsFileCorrupt
@@ -183,6 +184,10 @@ class CliContext(object):
         self.html_include_images = True         # export-html --no-images
         self.image_width = None                 # export-html -w/--image-width
         self.image_height = None                # export-html -h/--image-height
+
+        # Properties for export-edl command.
+        self.export_edl = False                 # export-edl command
+        self.edl_name_format = None             # export-edl -f/--filename
 
 
     def cleanup(self):
@@ -374,6 +379,20 @@ class CliContext(object):
                                   image_filenames=image_filenames,
                                   image_width=self.image_width,
                                   image_height=self.image_height)
+
+        # Handle export-edl command.
+        if self.export_edl:
+            edl_filename = Template(self.edl_name_format).safe_substitute(
+                VIDEO_NAME=video_name)
+            if not edl_filename.lower().endswith('.edl'):
+                edl_filename += '.edl'
+            edl_path = get_and_create_path(
+                edl_filename,
+                self.image_directory if self.image_directory is not None
+                else self.output_directory)
+            logging.info('Exporting to edl file:\n %s:', edl_path)
+            write_scene_list_edl(edl_path, scene_list)
+
 
         # Handle split-video command.
         if self.split_video:
@@ -619,6 +638,20 @@ class CliContext(object):
         self.html_include_images = False if no_images else True
         self.image_width = image_width
         self.image_height = image_height
+
+
+    def export_edl_command(self, filename):
+        # type: (str, bool) -> None
+        """Export EDL command: Parses all options/arguments passed to the export-edl command,
+        or with respect to the CLI, this function processes [export-edl] options when calling:
+        scenedetect [global options] export-edl [export-html options] [other commands...].
+
+        """
+        self.check_input_open()
+
+        self.edl_name_format = filename
+        if self.edl_name_format is not None:
+            logging.info('Scene list edl file name format:\n %s', self.edl_name_format)
 
 
     def save_images_command(self, num_images, output, name_format, jpeg, webp, quality,

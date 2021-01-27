@@ -504,6 +504,21 @@ def export_html_command(ctx, filename, no_images, image_width, image_height):
 
 
 
+@click.command('export-edl', add_help_option=False)
+@click.option(
+    '--filename', '-f', metavar='NAME', default='$VIDEO_NAME.edl',
+    type=click.STRING, show_default=True, help=
+    'Filename format to use for the scene list EDL file. You can use the'
+    ' $VIDEO_NAME macro in the file name. Note that you may have to wrap'
+    ' the format name using single quotes.')
+@click.pass_context
+def export_edl_command(ctx, filename):
+    """ Exports scene list to an EDL file."""
+    ctx.obj.export_edl_command(filename)
+    ctx.obj.export_edl = True
+
+
+
 @click.command('list-scenes', add_help_option=False)
 @click.option(
     '--output', '-o', metavar='DIR',
@@ -766,3 +781,4 @@ add_cli_command(scenedetect_cli, save_images_command)
 add_cli_command(scenedetect_cli, split_video_command)
 
 add_cli_command(scenedetect_cli, export_html_command)
+add_cli_command(scenedetect_cli, export_edl_command)

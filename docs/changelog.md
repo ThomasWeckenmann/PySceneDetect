@@ -21,6 +21,7 @@ PySceneDetect Releases
 
 #### Changelog
 
+ * [feature] Add new `export-edl` command to the CLI
  * [bugfix] Allow image sequences and URLs to be used as inputs ([#152](https://github.com/Breakthrough/PySceneDetect/issues/171) and [#188](https://github.com/Breakthrough/PySceneDetect/issues/188))
  * [bugfix] Pixel aspect ratio is now applied when using `save-images` ([#195](https://github.com/Breakthrough/PySceneDetect/issues/195))
  * [cli] Renamed `--image-frame-margin` to `--frame-margin` in `save-images` command, added short option `-m` as alias

@@ -34,6 +34,7 @@ Input/output commands (applies to input videos and detected scenes):
  - ``split-video`` - Automatically split input video using either `ffmpeg` (`split-video` or `split-video -hq` for higher quality), or `mkvmerge` (`split-video --copy`)
     ``split-video`` or ``split-video -hq`` for higher quality, ``split-video --copy`` for no re-encoding
  - ``export-html`` - Exports scene list to a HTML file.  Requires ``save-images`` by default.
+ - ``export-edl`` - Exports scene list to an EDL file.
 
 .. note:: When using multiple commands, make sure to not
    specify the same command twice. The order of commands does
@@ -348,3 +349,26 @@ The `export-html` command takes the following options:
     Height in pixels of the images in the resulting
     HTML table.
 
+
+
+=======================================================================
+``export-edl``
+=======================================================================
+
+**The** ``export-edl`` **command** generates an EDL file containing
+all detected scenes in the Edit Decision List format.
+
+Command Options
+-----------------------------------------------------------------------
+
+The `export-edl` command takes the following options:
+
+ * ``-o``, ``--output DIR``
+    Output directory to save videos to. Overrides
+    global option `-o`/`--output` if set.
+ * ``-f``, ``--filename NAME``
+    Filename format to use for the scene list HTML
+    file. You can use the $VIDEO_NAME macro in the
+    file name.  Note that you may have to wrap the
+    name using single quotes.
+    [default: $VIDEO_NAME.edl]
