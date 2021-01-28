@@ -116,6 +116,7 @@ Commands:
   detect-content    Perform content detection algorithm on input...
   detect-threshold  Perform threshold detection algorithm on...
   export-html       Exports scene list to a HTML file.
+  export-edl        Exports scene list to an EDL file.
   help              Print help for command (help [command]).
   list-scenes       Prints scene list and outputs to a CSV file.
   save-images       Create images for each detected scene.
