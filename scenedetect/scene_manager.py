@@ -57,7 +57,6 @@ import logging
 # Third-Party Library Imports
 import cv2
 import numpy as np
-from edl import Event
 from scenedetect.platform import tqdm
 from scenedetect.platform import get_and_create_path
 from scenedetect.platform import get_aspect_ratio
@@ -253,16 +252,16 @@ def write_scene_list_edl(output_edl_filename, scene_list):
 
     Arguments:
         output_edl_filename: filename of output edl file.
-        scene_list: List of pairs of FrameTimecodes denoting each scene's start/end FrameTimecode.
-
+        scene_list: List of pairs of FrameTimecodes denoting each scene's
+                    start/end FrameTimecode.
     """
 
     edl_events = _get_edl_events(output_edl_filename, scene_list)
     header = 'TITLE: {}\nFCM: NON-DROP FRAME\n'.format(output_edl_filename)
     with open(output_edl_filename, 'w') as edl_file:
         edl_file.write('{}\n'.format(header))
-        for num , event in enumerate(edl_events):
-            edl_file.write('{}\n'.format(event.to_string()))
+        for num, event in enumerate(edl_events):
+            edl_file.write('{}\n'.format(str(event)))
 
 
 def _get_edl_events(output_edl_filename, scene_list):
@@ -270,22 +269,49 @@ def _get_edl_events(output_edl_filename, scene_list):
 
     Arguments:
         output_edl_filename: filename of output edl file.
-        scene_list: List of pairs of FrameTimecodes denoting each scene's start/end FrameTimecode.
-
+        scene_list: List of pairs of FrameTimecodes denoting each scene's
+                    start/end FrameTimecode.
     """
     edl_events = []
-    edl_event_keys = ['num', 'reel', 'track', 'tr_code', 'aux', 'src_start_tc',
-                      'src_end_tc', 'rec_start_tc', 'rec_end_tc']
-    reel_name = os.path.splitext(output_edl_filename)[0]
     for num, scene in enumerate(scene_list, 1):
-        start_tc = scene[0].get_smpte_timecode()
-        end_tc = scene[1].get_smpte_timecode() 
-        values = [str(num).zfill(4), reel_name, 'V', '', 'C',
-                  start_tc, end_tc, start_tc, end_tc]
-        event = Event(dict(zip(edl_event_keys, values)))
-        # event.comments = ['* FROM CLIP NAME: {}'.format("")]
+        reel = os.path.splitext(output_edl_filename)[0]
+        event = EdlEvent(num, reel,
+                         scene[0].get_smpte_timecode(),
+                         scene[1].get_smpte_timecode())
         edl_events.append(event)
     return edl_events
+
+
+class EdlEvent(object):
+    """An EdlEvent represents one event of an EDL (Edit Decision List).
+
+    It contains reel and SMPTE timecode data representing where each video clip
+    can be obtained in order to conform a cut.
+
+    Very simple implementation that allows PySceneDetect to export an EDL.
+    """
+    def __init__(self, num, reel, start_tc, end_tc, clipname=''):
+        self._num = num
+        self._reel = reel
+        self._start_tc = start_tc
+        self._end_tc = end_tc
+        self._clipname = clipname
+
+    def __str__(self):
+        """Human Readable string representation of an edl event.
+
+        Returns the string representation of this Event which is suitable
+        to be written to a file.
+        """
+        num = str(self._num).zfill(4).ljust(7)
+        reel = self._reel.ljust(32)
+        track = 'V'.ljust(5)
+        aux = 'C'.ljust(5)
+        clipname = f'* FROM CLIP NAME: {self._clipname}\n' if self._clipname else ''
+        return (f'{num} {reel} {track} {aux} '
+                f'{self._start_tc} {self._end_tc} '
+                f'{self._start_tc} {self._end_tc}\n'
+                f'{clipname}')
 
 
 def save_images(scene_list, video_manager, num_images=3, frame_margin=1,
