@@ -182,6 +182,25 @@ class FrameTimecode(object):
         """
         return float(self.frame_num) / self.framerate
 
+    def get_smpte_timecode(self):
+        # type: () -> str
+        """ Get a formatted timecode string of the form HH:MM:SS:FF.
+
+        Returns:
+            str: The current time in the form ``"HH:MM:SS:FF"``.
+        """
+        fps = int(round(self.framerate))
+        frames_per_hour = int(round(fps * 60 * 60))
+        frames_per_24_hours = frames_per_hour * 24
+        frames_per_10_minutes = int(round(fps * 60 * 10))
+        frames_per_minute = int(round(fps) * 60)
+
+        frames = self.frame_num % fps
+        secs = int((self.frame_num // fps) % 60)
+        mins = int(((self.frame_num // fps) // 60) % 60)
+        hrs = int((((self.frame_num // fps) // 60) // 60))
+
+        return '%02d:%02d:%02d:%02d' % (hrs, mins, secs, frames)
 
     def get_timecode(self, precision=3, use_rounding=True):
         # type: (int, bool) -> str

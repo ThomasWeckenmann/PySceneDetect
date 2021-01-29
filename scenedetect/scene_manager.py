@@ -61,7 +61,6 @@ from edl import Event
 from scenedetect.platform import tqdm
 from scenedetect.platform import get_and_create_path
 from scenedetect.platform import get_aspect_ratio
-from timecode import Timecode
 
 # PySceneDetect Library Imports
 from scenedetect.frame_timecode import FrameTimecode
@@ -278,30 +277,15 @@ def _get_edl_events(output_edl_filename, scene_list):
     edl_event_keys = ['num', 'reel', 'track', 'tr_code', 'aux', 'src_start_tc',
                       'src_end_tc', 'rec_start_tc', 'rec_end_tc']
     reel_name = os.path.splitext(output_edl_filename)[0]
-    fps = scene_list[0][0].get_framerate()
     for num, scene in enumerate(scene_list, 1):
-        start_tc, end_tc = _get_timecodes(scene, fps)
+        start_tc = scene[0].get_smpte_timecode()
+        end_tc = scene[1].get_smpte_timecode() 
         values = [str(num).zfill(4), reel_name, 'V', '', 'C',
                   start_tc, end_tc, start_tc, end_tc]
         event = Event(dict(zip(edl_event_keys, values)))
         # event.comments = ['* FROM CLIP NAME: {}'.format("")]
         edl_events.append(event)
     return edl_events
-
-
-def _get_timecodes(scene, fps):
-    """Returns tuple of start and end timecode.
-
-    Arguments:
-        scene: Pair of FrameTimecodes denoting each scene's start/end FrameTimecode.
-        fps: Framerate of source video.
-
-    """
-    start_tc = Timecode(fps)
-    end_tc = Timecode(fps)
-    start_tc.frames = scene[0].get_frames() + 1
-    end_tc.frames = scene[1].get_frames() + 1
-    return start_tc, end_tc
 
 
 def save_images(scene_list, video_manager, num_images=3, frame_margin=1,
