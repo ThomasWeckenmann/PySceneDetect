@@ -33,6 +33,7 @@ state/context and logic to run the PySceneDetect CLI.
 
 # Standard Library Imports
 from __future__ import print_function
+import ast
 import logging
 import os
 import time
@@ -189,6 +190,10 @@ class CliContext(object):
         self.export_edl = False                 # export-edl command
         self.edl_name_format = None             # export-edl -f/--filename
 
+        # Properties for export-vfx-edl command.
+        self.export_vfx_edl = False             # export-vfx-edl command
+        self.edl_name_format = None             # export-vfx-edl -f/--filename
+        self.bbox = None                        # export-vfx-edl -bb/--bbox-filename bbox coordinates
 
     def cleanup(self):
         # type: () -> None
@@ -297,6 +302,11 @@ class CliContext(object):
         video_paths = self.video_manager.get_video_paths()
         video_name = self.video_manager.get_video_name()
 
+        if self.export_vfx_edl:
+            vfx_scene_list = self.scene_manager.get_vfx_list(video_paths,
+                                                             scene_list,
+                                                             self.bbox)
+
         if scene_list:  # Ensure we don't divide by zero.
             logging.info('Detected %d scenes, average shot length %.1f seconds.',
                          len(scene_list),
@@ -338,7 +348,7 @@ class CliContext(object):
      for i, (start_time, end_time) in enumerate(scene_list)]))
 
         if cut_list:
-            logging.info('Comma-separated timecode list:\n  %s',
+            logging.info('Comma-separated timecode list: %s',
                          ','.join([cut.get_timecode() for cut in cut_list]))
 
         # Handle save-images command.
@@ -393,6 +403,18 @@ class CliContext(object):
             logging.info('Exporting to edl file:\n %s:', edl_path)
             write_scene_list_edl(edl_path, scene_list)
 
+        # Handle export-vfx-edl command.
+        if self.export_vfx_edl:
+            edl_filename = Template(self.edl_name_format).safe_substitute(
+                VIDEO_NAME=video_name)
+            if not edl_filename.lower().endswith('.edl'):
+                edl_filename += '.edl'
+            edl_path = get_and_create_path(
+                edl_filename,
+                self.image_directory if self.image_directory is not None
+                else self.output_directory)
+            logging.info('Exporting to vfx-edl file: %s:', edl_path)
+            write_scene_list_edl(edl_path, vfx_scene_list)
 
         # Handle split-video command.
         if self.split_video:
@@ -644,7 +666,7 @@ class CliContext(object):
         # type: (str, bool) -> None
         """Export EDL command: Parses all options/arguments passed to the export-edl command,
         or with respect to the CLI, this function processes [export-edl] options when calling:
-        scenedetect [global options] export-edl [export-html options] [other commands...].
+        scenedetect [global options] export-edl [export-edl options] [other commands...].
 
         """
         self.check_input_open()
@@ -652,6 +674,26 @@ class CliContext(object):
         self.edl_name_format = filename
         if self.edl_name_format is not None:
             logging.info('Scene list edl file name format:\n %s', self.edl_name_format)
+
+
+    def export_vfx_edl_command(self, filename, bbox_filename):
+        # type: (str, bool) -> None
+        """Export VFX EDL command: Parses all options/arguments passed to the export-vfx-edl command,
+        or with respect to the CLI, this function processes [export-vfx-edl] options when calling:
+        scenedetect [global options] export-edl [export-html options] [other commands...].
+        """
+        self.check_input_open()
+
+        self.edl_name_format = filename
+        if self.edl_name_format is not None:
+            logging.info('Scene list vfx-edl file name format: %s', self.edl_name_format)
+        try:
+            with open(bbox_filename, 'r') as reader:
+                self.bbox = ast.literal_eval(reader.readline())
+        except:
+            error_str = f'\nError parsing BBOX file: {bbox_filename}'
+            logging.error(error_str)
+            raise click.BadParameter(error_str, param_hint='-bb')
 
 
     def save_images_command(self, num_images, output, name_format, jpeg, webp, quality,

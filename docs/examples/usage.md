@@ -141,6 +141,7 @@ After setting the detection method(s), there are several commands that can be us
  - `save-images`: Save images from the video for each scene.
  - `export-html`: Exports scene list to an HTML file.
  - `export-edl`: Exports scene list to an EDL file.
+ - `export-vfx-edl`: Exports scene list to an EDL file (VFX shots only).
  - `help`: Print help for PySceneDetect or a particular command. No processing is done if present.
  - `version`: Print PySceneDetect release version. No processing is done if present.
  - `about`: Print PySceneDetect license agreement and application information. No processing is done if present.

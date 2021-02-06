@@ -117,6 +117,7 @@ Commands:
   detect-threshold  Perform threshold detection algorithm on...
   export-html       Exports scene list to a HTML file.
   export-edl        Exports scene list to an EDL file.
+  export-vfx-edl    Exports scene list to an EDL file (VFX shots only).
   help              Print help for command (help [command]).
   list-scenes       Prints scene list and outputs to a CSV file.
   save-images       Create images for each detected scene.
@@ -395,4 +396,32 @@ Options:
                              file name. Note that you may have to wrap the
                              the format name using single quotes.
                              [default: $VIDEO_NAME.edl]
+```
+
+
+## `export-vfx-edl` Command
+
+```md
+PySceneDetect export-vfx-edl Command
+----------------------------------------------------
+Usage: scenedetect.py export-vfx-edl [OPTIONS]
+
+  Exports scene list to an EDL file. EDL events are reduced to VFX Shots.
+  VFX Shots are detected by text detection. This requires a bounding box
+  specified in a text file with first line containing bbox data like
+  "[55, 32, 227, 77]" by default. The bounding box is a list of cv2 coordinates
+  which build a rectangle arround vfx shot id burnin: [ul-x, ul-y, lr-x, lr-y].
+  You can use [ToDo: implement bbox-selector tool] to create the bbox file.
+  # ToDo: if no bbox file is set, run bbox-selector tool prior to scenedetection.
+
+
+Options:
+  -bb, --bbox-filename NAME  [Required] Textfile containing bbox coordinates 
+                             in this format: "[55, 32, 227, 77]".
+  -f, --filename NAME        Filename format to use for the scene list EDL
+                             file. You can use the $VIDEO_NAME macro in the
+                             file name. Note that you may have to wrap the
+                             the format name using single quotes.
+                             [default: $VIDEO_NAME.edl]
+
 ```

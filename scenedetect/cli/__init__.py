@@ -519,6 +519,27 @@ def export_edl_command(ctx, filename):
 
 
 
+@click.command('export-vfx-edl', add_help_option=False)
+@click.option(
+    '--filename', '-f', metavar='NAME', default='$VIDEO_NAME.edl',
+    type=click.STRING, show_default=True, help=
+    'Filename format to use for the scene list EDL file. You can use the'
+    ' $VIDEO_NAME macro in the file name. Note that you may have to wrap'
+    ' the format name using single quotes.')
+@click.option(
+    '--bbox-filename', '-bb', metavar='NAME', default='', type=click.STRING,
+    show_default=True, help=
+    'Path to bounding box file containing bbox coordinates.')
+@click.pass_context
+def export_vfx_edl_command(ctx, filename, bbox_filename):
+    """ Exports scene list to an EDL (VFX shots only). Requires option -bb"""
+    if not bbox_filename:
+        raise click.BadParameter("Required -bb option hasn't been set.")
+    ctx.obj.export_vfx_edl_command(filename, bbox_filename)
+    ctx.obj.export_vfx_edl = True
+
+
+
 @click.command('list-scenes', add_help_option=False)
 @click.option(
     '--output', '-o', metavar='DIR',
@@ -782,3 +803,4 @@ add_cli_command(scenedetect_cli, split_video_command)
 
 add_cli_command(scenedetect_cli, export_html_command)
 add_cli_command(scenedetect_cli, export_edl_command)
+add_cli_command(scenedetect_cli, export_vfx_edl_command)
