@@ -35,7 +35,7 @@ Input/output commands (applies to input videos and detected scenes):
     ``split-video`` or ``split-video -hq`` for higher quality, ``split-video --copy`` for no re-encoding
  - ``export-html`` - Exports scene list to a HTML file.  Requires ``save-images`` by default.
  - ``export-edl`` - Exports scene list to an EDL file.
- - ``export-vfx-edl`` - Exports scene list to an EDL file (VFX shots only). Requires ``--bbox-filename`` by default.
+ - ``export-vfx-edl`` - Exports scene list to an EDL file (VFX Shots only).
 
 .. note:: When using multiple commands, make sure to not
    specify the same command twice. The order of commands does
@@ -389,7 +389,7 @@ Command Options
 The `export-vfx-edl` command takes the following options:
 
  * ``-bb``, ``--bbox-filename NAME``
-     [Required] Textfile containing opencv bbox coordinates in this format:
+     Textfile containing opencv bbox coordinates in this format:
      "[55, 32, 227, 77]".
  * ``-o``, ``--output DIR``
     Output directory to save videos to. Overrides

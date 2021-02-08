@@ -47,6 +47,9 @@ import cv2
 import scenedetect.detectors
 
 import scenedetect.scene_manager
+
+from scenedetect.bbox_video_stream import BboxVideoStream
+
 from scenedetect.scene_manager import SceneManager
 from scenedetect.scene_manager import write_scene_list
 from scenedetect.scene_manager import write_scene_list_html
@@ -694,6 +697,21 @@ class CliContext(object):
             error_str = f'\nError parsing BBOX file: {bbox_filename}'
             logging.error(error_str)
             raise click.BadParameter(error_str, param_hint='-bb')
+
+
+    def select_bbox(self):
+        # type: () -> String
+        """ Select BBOX: Plays CV2 Video stream and lets user select bounding
+        box that will be used for text detection of VFX Shotcodes. Used in
+        export_vfx_edl_command if bounding box text_file has not been provided
+        by option --bb.
+        """
+        logging.info('Select Bounding Box by pressing any key to pause the '
+                     'video and clicking upper left and lower right point of '
+                     'VFX Shotcode Burnin. Press q to save and exit.')
+        video_stream = BboxVideoStream(self.video_manager.get_video_paths()[0])
+        video_stream.play()
+        return video_stream.output_file
 
 
     def save_images_command(self, num_images, output, name_format, jpeg, webp, quality,

@@ -409,15 +409,15 @@ Usage: scenedetect.py export-vfx-edl [OPTIONS]
   Exports scene list to an EDL file. EDL events are reduced to VFX Shots.
   VFX Shots are detected by text detection. This requires a bounding box
   specified in a text file with first line containing bbox data like
-  "[55, 32, 227, 77]" by default. The bounding box is a list of cv2 coordinates
-  which build a rectangle arround vfx shot id burnin: [ul-x, ul-y, lr-x, lr-y].
-  You can use [ToDo: implement bbox-selector tool] to create the bbox file.
-  # ToDo: if no bbox file is set, run bbox-selector tool prior to scenedetection.
+  "[55, 32, 227, 77]". The bounding box is a list of coordinates which build a
+  rectangle arround VFX Shotcode burnin: [ul-x, ul-y, lr-x, lr-y].
+  If no .bbox file is specified a cv2 player will be shown and bbox can be
+  selected.
 
 
 Options:
-  -bb, --bbox-filename NAME  [Required] Textfile containing bbox coordinates 
-                             in this format: "[55, 32, 227, 77]".
+  -bb, --bbox-filename NAME  Textfile containing bbox coordinates in this
+                             format: "[55, 32, 227, 77]".
   -f, --filename NAME        Filename format to use for the scene list EDL
                              file. You can use the $VIDEO_NAME macro in the
                              file name. Note that you may have to wrap the

@@ -534,7 +534,7 @@ def export_edl_command(ctx, filename):
 def export_vfx_edl_command(ctx, filename, bbox_filename):
     """ Exports scene list to an EDL (VFX shots only). Requires option -bb"""
     if not bbox_filename:
-        raise click.BadParameter("Required -bb option hasn't been set.")
+        bbox_filename = ctx.obj.select_bbox()
     ctx.obj.export_vfx_edl_command(filename, bbox_filename)
     ctx.obj.export_vfx_edl = True
 
