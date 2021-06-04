@@ -24,7 +24,7 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 
-""" ``scenedetect`` Module
+"""A cross-platform, OpenCV-based VFX shot detection program and Python library.
 
 This is the main PySceneDetect module, containing imports of all classes
 so they can be directly accessed from the scenedetect module in addition
@@ -51,7 +51,7 @@ from scenedetect.detectors import ThresholdDetector, ContentDetector
 
 # Used for module identification and when printing version & about info
 # (e.g. calling `scenedetect version` or `scenedetect about`).
-__version__ = 'v0.6.1'
+__version__ = 'v0.6.2'
 
 # About & copyright message string shown for the 'about' CLI command (scenedetect about).
 

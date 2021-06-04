@@ -4,7 +4,7 @@ VFX Shot Detection Tool
 [![PyPI Status](https://img.shields.io/pypi/status/vfxdetect.svg)](https://pypi.python.org/pypi/vfxdetect/)
 [![PyPI Version](https://img.shields.io/pypi/v/vfxdetect?color=blue)](https://pypi.python.org/pypi/vfxdetect/)
 
-### Latest Release: v0.6.1 (June 06, 2021)
+### Latest Release: v0.6.2 (June 06, 2021)
 
 ----------------------------------------------------------
 
