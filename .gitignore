@@ -1,5 +1,6 @@
 *.pyc
 *.pyo
+.eggs/
 site/
 build/
 dist/

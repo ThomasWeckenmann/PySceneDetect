@@ -66,7 +66,7 @@ from scenedetect.platform import get_and_create_path
 def get_help_command_preface(command_name='scenedetect'):
     """ Preface/intro help message shown at the beginning of the help command. """
     return """
-The PySceneDetect command-line interface is grouped into commands which
+The PyVfxShotDetect command-line interface is grouped into commands which
 can be combined together, each containing its own set of arguments:
 
  > {command_name} ([options]) [command] ([options]) ([...other command(s)...])
@@ -111,7 +111,7 @@ def print_command_help(ctx, command):
     """ Print Command Help: Prints PySceneDetect help/usage for a given command. """
     ctx_name = ctx.info_name
     ctx.info_name = command.name
-    click.echo(click.style('PySceneDetect %s Command' % command.name, fg='cyan'))
+    click.echo(click.style('PyVfxShotDetect %s Command' % command.name, fg='cyan'))
     click.echo(click.style('----------------------------------------------------', fg='cyan'))
     click.echo(command.get_help(ctx))
     click.echo('')
@@ -121,7 +121,7 @@ def print_command_help(ctx, command):
 def print_command_list_header():
     # type: () -> None
     """ Print Command List Header: Prints header shown before the option/command list. """
-    click.echo(click.style('PySceneDetect Option/Command List:', fg='green'))
+    click.echo(click.style('PyVfxShotDetect Option/Command List:', fg='green'))
     click.echo(click.style('----------------------------------------------------', fg='green'))
     click.echo('')
 
@@ -130,7 +130,7 @@ def print_help_header():
     # type: () -> None
     """ Print Help Header: Prints header shown before the help command. """
     click.echo(click.style('----------------------------------------------------', fg='yellow'))
-    click.echo(click.style(' PySceneDetect %s Help' % scenedetect.__version__, fg='yellow'))
+    click.echo(click.style(' PyVfxShotDetect %s Help' % scenedetect.__version__, fg='yellow'))
     click.echo(click.style('----------------------------------------------------', fg='yellow'))
 
 
@@ -262,7 +262,7 @@ def scenedetect_cli(ctx, input, output, framerate, downscale, frame_skip,
     else:
         logging.disable(logging.CRITICAL)
 
-    logging.info('PySceneDetect %s', scenedetect.__version__)
+    logging.info('PyVfxShotDetect %s', scenedetect.__version__)
 
     if stats is not None and frame_skip != 0:
         ctx.obj.options_processed = False
@@ -335,7 +335,7 @@ def about_command(ctx):
     """ Print license/copyright info. """
     ctx.obj.process_input_flag = False
     click.echo(click.style('----------------------------------------------------', fg='cyan'))
-    click.echo(click.style(' About PySceneDetect %s' % scenedetect.__version__, fg='yellow'))
+    click.echo(click.style(' About PyVfxShotDetect %s' % scenedetect.__version__, fg='yellow'))
     click.echo(click.style('----------------------------------------------------', fg='cyan'))
     click.echo(scenedetect.ABOUT_STRING)
     ctx.exit()
@@ -347,7 +347,7 @@ def about_command(ctx):
 def version_command(ctx):
     """ Print version of PySceneDetect. """
     ctx.obj.process_input_flag = False
-    click.echo(click.style('PySceneDetect %s' % scenedetect.__version__, fg='yellow'))
+    click.echo(click.style('PyVfxShotDetect %s' % scenedetect.__version__, fg='yellow'))
     ctx.exit()
 
 

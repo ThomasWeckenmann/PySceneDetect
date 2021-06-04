@@ -32,8 +32,8 @@ to being directly imported (e.g. `from scenedetect import FrameTimecode`
 is the same as `from scenedetect.frame_timecode import FrameTimecode`).
 
 This file also contains the PySceneDetect version string (displayed when calling
-'scenedetect version'), the about string for license/copyright information
-(when calling 'scenedetect about').
+'vfxdetect version'), the about string for license/copyright information
+(when calling 'vfxdetect about').
 """
 
 # Commonly used classes for easier use directly from the scenedetect namespace (e.g.
@@ -51,7 +51,7 @@ from scenedetect.detectors import ThresholdDetector, ContentDetector
 
 # Used for module identification and when printing version & about info
 # (e.g. calling `scenedetect version` or `scenedetect about`).
-__version__ = 'v0.5.5'
+__version__ = 'v0.6.1'
 
 # About & copyright message string shown for the 'about' CLI command (scenedetect about).
 
@@ -69,6 +69,7 @@ This software uses the following third-party components:
   > OpenCV [Copyright (C) 2018, OpenCV Team]
   > click [Copyright (C) 2018, Armin Ronacher]
   > simpletable [Copyright (C) 2014 Matheus Vieira Portela]
+  > pytesseract [Copyright (C) 2014-2020, pytesseract Developers]
 
 This software may also invoke the following third-party executables:
 

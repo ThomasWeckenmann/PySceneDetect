@@ -1,0 +1,39 @@
+[build-system]
+requires = ["flit_core >=2,<4"]
+build-backend = "flit_core.buildapi"
+
+[tool.flit.metadata]
+module = "scenedetect"
+dist-name = "vfxdetect"
+author = "Thomas Weckenmann"
+author-email = "tweckenmann0711@gmail.com"
+home-page = "https://github.com/ThomasWeckenmann/PyVfxShotDetect"
+description-file = "README.md"
+classifiers=[
+    'Development Status :: 5 - Production/Stable',
+    'Environment :: Console',
+    'Environment :: Console :: Curses',
+    'Intended Audience :: Developers',
+    'Intended Audience :: End Users/Desktop',
+    'Intended Audience :: System Administrators',
+    'License :: OSI Approved :: MIT License',
+    'Operating System :: OS Independent',
+    'Programming Language :: Python :: 3.5',
+    'Programming Language :: Python :: 3.6',
+    'Programming Language :: Python :: 3.7',
+    'Programming Language :: Python :: 3.8',
+    'Topic :: Multimedia :: Video',
+    'Topic :: Multimedia :: Video :: Conversion',
+    'Topic :: Multimedia :: Video :: Non-Linear Editor',
+    'Topic :: Utilities'
+]
+requires = [
+    'Click',
+    'numpy',
+    'tqdm',
+    'opencv-python',
+    'pytesseract',
+]
+
+[tool.flit.scripts]
+vfxdetect = "scenedetect.__main__:main"

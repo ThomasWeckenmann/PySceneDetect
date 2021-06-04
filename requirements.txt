@@ -1,5 +1,5 @@
 #
-# PySceneDetect Python Requirements
+# PyVfxShotDetect Python Requirements
 #
 opencv-python<=4.2.0.32; python_version <= "3.5"
 opencv-python; python_version > "3.5"
