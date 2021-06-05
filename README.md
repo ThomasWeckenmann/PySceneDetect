@@ -1,10 +1,10 @@
-VFX Shot Detection Tool
+VFX Shot Detection Tool (detects VFX shot code burnins)
 ----------------------------------------------------------
 
 [![PyPI Status](https://img.shields.io/pypi/status/vfxdetect.svg)](https://pypi.python.org/pypi/vfxdetect/)
 [![PyPI Version](https://img.shields.io/pypi/v/vfxdetect?color=blue)](https://pypi.python.org/pypi/vfxdetect/)
 
-### Latest Release: v0.6.2 (June 06, 2021)
+### Latest Release: v0.6.3 (June 07, 2021)
 
 ----------------------------------------------------------
 
@@ -23,17 +23,20 @@ Requires Python modules `click`, `numpy`, OpenCV `cv2`, `pytesseract` and (optio
 
 **Quick Start (Command Line)**:
 
-Analyse a video and export an EDL:
+Analyse a video (detect all cuts) and export an EDL:
 
     vfxdetect -i video.mp4 detect-content export-edl
 
-Analyse a video and export an EDL only containing VFX Shots:
+Analyse a video and export an EDL only containing VFX Shots (based on detected VFX shot code burnins).
+Prior to analysing the video, the video is played and the user is asked to define a boundary box
+(rectangle that encloses a VFX shot code burnin) which helps vfxdetect to find the VFX shots and extract the VFX shot codes)
+In addition to the edl, a .bbox file (text file) containing the boundary box coordinates is stored next to the input video file:
 
     vfxdetect -i video.mp4 detect-content export-vfx-edl
 
-Analyse a video and export an EDL only containing VFX Shots plus specifying a file containing boundary box data:
+Analyse a video and export an EDL only containing VFX shots plus specifying a file containing boundary box coordinates:
 
-    vfxdetect -i video.mp4 detect-content export-vfx-edl -bb bbox-file.txt
+    vfxdetect -i video.mp4 detect-content export-vfx-edl -bb bbox-file.bbox
 
 To show a summary of all other options and commands:
 
@@ -64,15 +67,15 @@ Usage
 PyVfxShotDetect Option/Command List:
 ----------------------------------------------------
 
-Usage: scenedetect [OPTIONS] COMMAND1 [ARGS]... [COMMAND2 [ARGS]...]...
+Usage: vfxdetect [OPTIONS] COMMAND1 [ARGS]... [COMMAND2 [ARGS]...]...
 
   For example:
 
   vfxdetect -i video.mp4 -s video.stats.csv detect-content list-scenes
 
   Note that the following options represent [OPTIONS] above. To list the
-  optional [ARGS] for a particular COMMAND, type `scenedetect help COMMAND`.
-  You can also combine commands (e.g. scenedetect [...] detect-content save-
+  optional [ARGS] for a particular COMMAND, type `vfxdetect help COMMAND`.
+  You can also combine commands (e.g. vfxdetect [...] detect-content save-
   images --png split-video).
 
 Options:
@@ -151,7 +154,7 @@ Commands:
 ```md
 PyVfxShotDetect time Command
 ----------------------------------------------------
-Usage: scenedetect time [OPTIONS]
+Usage: vfxdetect time [OPTIONS]
 
   Set start/end/duration of input video(s).
 
@@ -189,7 +192,7 @@ Options:
 ```md
 PyVfxShotDetect detect-content Command
 ----------------------------------------------------
-Usage: scenedetect detect-content [OPTIONS]
+Usage: vfxdetect detect-content [OPTIONS]
 
   Perform content detection algorithm on input video(s).
 
@@ -211,7 +214,7 @@ Options:
 ```md
 PyVfxShotDetect detect-threshold Command
 ----------------------------------------------------
-Usage: scenedetect detect-threshold [OPTIONS]
+Usage: vfxdetect detect-threshold [OPTIONS]
 
   Perform threshold detection algorithm on input video(s).
 
@@ -246,7 +249,7 @@ Options:
 ```md
 PyVfxShotDetect list-scenes Command
 ----------------------------------------------------
-Usage: scenedetect list-scenes [OPTIONS]
+Usage: vfxdetect list-scenes [OPTIONS]
 
   Prints scene list and outputs to a CSV file. The default filename is
   $VIDEO_NAME-Scenes.csv.
@@ -273,7 +276,7 @@ Options:
 ```md
 PyVfxShotDetect save-images Command
 ----------------------------------------------------
-Usage: scenedetect save-images [OPTIONS]
+Usage: vfxdetect save-images [OPTIONS]
 
   Create images for each detected scene.
 
@@ -326,7 +329,7 @@ Options:
 ```md
 PyVfxShotDetect split-video Command
 ----------------------------------------------------
-Usage: scenedetect split-video [OPTIONS]
+Usage: vfxdetect split-video [OPTIONS]
 
   Split input video(s) using ffmpeg or mkvmerge.
 
@@ -381,7 +384,7 @@ Options:
 ```md
 PyVfxShotDetect export-html Command
 ----------------------------------------------------
-Usage: scenedetect.py export-html [OPTIONS]
+Usage: vfxdetect.py export-html [OPTIONS]
 
   Exports scene list to a HTML file. Requires save-images by default.
 
@@ -405,7 +408,7 @@ Options:
 ```md
 PyVfxShotDetect export-edl Command
 ----------------------------------------------------
-Usage: scenedetect.py export-edl [OPTIONS]
+Usage: vfxdetect.py export-edl [OPTIONS]
 
   Exports scene list to an EDL file.
 
@@ -423,7 +426,7 @@ Options:
 ```md
 PyVfxShotDetect export-vfx-edl Command
 ----------------------------------------------------
-Usage: scenedetect.py export-vfx-edl [OPTIONS]
+Usage: vfxdetect.py export-vfx-edl [OPTIONS]
 
   Exports scene list to an EDL file. EDL events are reduced to VFX Shots.
   VFX Shots are detected by text detection. This requires a bounding box

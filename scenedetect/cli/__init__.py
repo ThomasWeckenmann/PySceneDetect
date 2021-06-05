@@ -228,11 +228,11 @@ def scenedetect_cli(ctx, input, output, framerate, downscale, frame_skip,
                     verbosity, logfile, quiet):
     """ For example:
 
-    scenedetect -i video.mp4 -s video.stats.csv detect-content list-scenes
+    vfxdetect -i video.mp4 -s video.stats.csv detect-content list-scenes
 
     Note that the following options represent [OPTIONS] above. To list the optional
-    [ARGS] for a particular COMMAND, type `scenedetect help COMMAND`. You can also
-    combine commands (e.g. scenedetect [...] detect-content save-images --png split-video).
+    [ARGS] for a particular COMMAND, type `vfxdetect help COMMAND`. You can also
+    combine commands (e.g. vfxdetect [...] detect-content save-images --png split-video).
 
 
     """
